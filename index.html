@@ -123,6 +123,10 @@
     font-family:var(--mono); font-size:0.82rem; padding:8px 14px; border-radius:6px; cursor:pointer;
   }
   .replay:hover{border-color:var(--green); color:var(--green);}
+  .replay:disabled{opacity:0.45; cursor:not-allowed;}
+  .replay:disabled:hover{border-color:var(--border); color:var(--text);}
+  .ratenote{color:var(--text-dim); font-size:0.75rem; margin-top:12px;}
+  .ratenote::before{content:"# "; color:var(--amber);}
 
   .toast{
     position:fixed; bottom:24px; right:24px; max-width:340px;
@@ -191,22 +195,22 @@
     <h2>selected work</h2>
     <div class="cards">
       <div class="card">
-        <h3>Cloud Certificate Orchestration Service — Redis</h3>
+        <h3>Cloud Certificate Orchestration Service</h3>
         <ul>
           <li>Python/FastAPI microservice for automated TLS certificate lifecycle management using Temporal workflows.</li>
-          <li>Durable workflows for issuance, domain claims, expiry scans, and schedule reconciliation across Redis Enterprise clusters.</li>
+          <li>Durable workflows for issuance, domain claims, expiry scans, and schedule reconciliation across managed database clusters.</li>
           <li>Helm/GitOps deployment with health probes, mTLS, SOPS/KMS secrets, Prometheus metrics, and KEDA scaling on queue depth.</li>
         </ul>
       </div>
       <div class="card">
-        <h3>Redis Cloud GitOps &amp; Deployment Platform — Redis</h3>
+        <h3>Cloud GitOps &amp; Deployment Platform</h3>
         <ul>
-          <li>GitOps source-of-truth repo managing Redis Cloud applications across QA, staging, and production Kubernetes.</li>
+          <li>GitOps source-of-truth repo managing cloud platform applications across QA, staging, and production Kubernetes.</li>
           <li>Helm charts, ArgoCD ApplicationSets, Prometheus rules, and rollout procedures for production services.</li>
         </ul>
       </div>
       <div class="card">
-        <h3>Hermes Feed Monitoring Service — Redis</h3>
+        <h3>Feed Monitoring Service</h3>
         <ul>
           <li>Python service monitoring RSS/Atom feeds for deprecations, breaking changes, and platform updates.</li>
           <li>Async parsing, OpenAI-based analysis, Redis caching, PDF reporting, and Slack notifications.</li>
@@ -242,30 +246,27 @@
   </section>
 
   <section>
-    <h2>live infra check</h2>
+    <h2>visitor ping</h2>
     <div class="demo">
-      <div class="hint">someone loaded this page — routing an event through the (simulated) pipeline:</div>
+      <div class="hint">someone loaded this page — routing a real event through the pipeline:</div>
 
       <div class="flow" id="flow">
         <div class="node" id="n0"><div class="box">🌐</div><div class="lbl">Visitor</div></div>
         <div class="edge" id="e0"></div>
-        <div class="node" id="n1"><div class="box">🚪</div><div class="lbl">API GW</div></div>
+        <div class="node" id="n1"><div class="box">⚡</div><div class="lbl">CF Worker</div></div>
         <div class="edge" id="e1"></div>
-        <div class="node" id="n2"><div class="box">λ</div><div class="lbl">Lambda</div></div>
+        <div class="node" id="n2"><div class="box">🔔</div><div class="lbl">ntfy</div></div>
         <div class="edge" id="e2"></div>
-        <div class="node" id="n3"><div class="box">📨</div><div class="lbl">SQS</div></div>
-        <div class="edge" id="e3"></div>
-        <div class="node" id="n4"><div class="box">📡</div><div class="lbl">SNS</div></div>
-        <div class="edge" id="e4"></div>
-        <div class="node" id="n5"><div class="box">📱</div><div class="lbl">Igor</div></div>
+        <div class="node" id="n3"><div class="box">📱</div><div class="lbl">Igor</div></div>
       </div>
 
       <button class="replay" id="replay">↻ send another ping</button>
+      <div class="ratenote">rate-limited, of course: button cooldown client-side, per-IP throttle at the worker — nobody's phone gets DDoS'd today.</div>
     </div>
   </section>
 
   <footer>
-    built by hand, deployed on GitHub Pages, DNS pointed from zilberman.ca — no infra bill required.
+    built by hand, deployed on GitHub Pages, pinged via a Cloudflare Worker, DNS pointed from zilberman.ca — still no infra bill.
   </footer>
 
 </div>
@@ -282,8 +283,8 @@
   // visitor geo/device info. Nothing secret lives in this file anymore.
   var PING_ENDPOINT = 'https://zilberman-ping.igorzi84.workers.dev/ping';
 
-  var nodeIds = ['n0','n1','n2','n3','n4','n5'];
-  var edgeIds = ['e0','e1','e2','e3','e4'];
+  var nodeIds = ['n0','n1','n2','n3'];
+  var edgeIds = ['e0','e1','e2'];
   var toast = document.getElementById('toast');
   var running = false;
 
@@ -318,13 +319,13 @@
       if(step >= sequence.length){
         toast.classList.add('show');
         if(sendReal) sendRealPing();
-        setTimeout(function(){ toast.classList.remove('show'); }, 5000);
+        setTimeout(function(){ toast.classList.remove('show'); }, 10000);
         running = false;
         return;
       }
       document.getElementById(sequence[step]).classList.add('active');
       step++;
-      setTimeout(tick, 260);
+      setTimeout(tick, 450);
     }
     tick();
   }
@@ -333,8 +334,28 @@
   window.addEventListener('load', function(){
     setTimeout(function(){ runFlow(true); }, 900);
   });
-  // replay button: just re-plays the animation, does not send another real push
-  document.getElementById('replay').addEventListener('click', function(){ runFlow(false); });
+  // replay button: just re-plays the animation, does not send another real push.
+  // rate-limited to one replay per cooldown window so it can't be spammed.
+  var replayBtn = document.getElementById('replay');
+  var REPLAY_COOLDOWN_S = 10;
+
+  replayBtn.addEventListener('click', function(){
+    if(running || replayBtn.disabled) return;
+    runFlow(false);
+    var remaining = REPLAY_COOLDOWN_S;
+    replayBtn.disabled = true;
+    replayBtn.textContent = '⏳ wait ' + remaining + 's';
+    var timer = setInterval(function(){
+      remaining--;
+      if(remaining <= 0){
+        clearInterval(timer);
+        replayBtn.disabled = false;
+        replayBtn.textContent = '↻ send another ping';
+        return;
+      }
+      replayBtn.textContent = '⏳ wait ' + remaining + 's';
+    }, 1000);
+  });
 })();
 </script>
 
