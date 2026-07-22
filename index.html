@@ -5,158 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Igor Zilberman — Senior DevOps / Platform Engineer</title>
 <meta name="description" content="Igor Zilberman — Senior DevOps / Platform Engineer. Kubernetes, Terraform, AWS/GCP/Azure, CI/CD, GitOps, Temporal, observability." />
-<link rel="icon" href="/favicon.ico" sizes="48x48">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<style>
-  :root{
-    --bg: #0a0e14;
-    --bg-panel: #10161f;
-    --border: #1f2937;
-    --text: #c9d1d9;
-    --text-dim: #6b7583;
-    --green: #39d353;
-    --amber: #f0b429;
-    --blue: #58a6ff;
-    --mono: 'JetBrains Mono', 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace;
-  }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--text);
-    font-family:var(--mono);
-    line-height:1.6;
-    background-image:
-      radial-gradient(circle at 20% 10%, rgba(57,211,83,0.06), transparent 40%),
-      radial-gradient(circle at 80% 0%, rgba(88,166,255,0.05), transparent 40%);
-  }
-  a{color:var(--green); text-decoration:none;}
-  a:hover{text-decoration:underline;}
-  .wrap{max-width:840px; margin:0 auto; padding:0 20px 80px;}
-
-  .termbar{
-    display:flex; align-items:center; gap:8px;
-    padding:14px 20px; border-bottom:1px solid var(--border);
-    max-width:840px; margin:0 auto;
-  }
-  .dot{width:11px;height:11px;border-radius:50%;}
-  .dot.r{background:#ff5f56;} .dot.y{background:#ffbd2e;} .dot.g{background:#27c93f;}
-  .termbar .path{margin-left:14px; color:var(--text-dim); font-size:13px;}
-
-  header{padding:56px 0 28px;}
-  .prompt{color:var(--text-dim); font-size:13px; margin-bottom:10px;}
-  .prompt .cmd{color:var(--blue);}
-  h1{font-size:2.1rem; margin:0 0 4px; color:#fff; letter-spacing:-0.5px;}
-  .title{color:var(--green); font-size:1.05rem; margin-bottom:18px;}
-  .tagline{color:var(--text-dim); font-size:0.95rem; margin-bottom:22px;}
-  .links{display:flex; gap:18px; font-size:0.9rem; flex-wrap:wrap;}
-  .links a{color:var(--text); border:1px solid var(--border); padding:6px 12px; border-radius:6px;}
-  .links a:hover{border-color:var(--green); color:var(--green); text-decoration:none;}
-
-  section{margin-top:44px;}
-  h2{
-    font-size:0.85rem; text-transform:uppercase; letter-spacing:1.5px;
-    color:var(--text-dim); margin-bottom:16px;
-  }
-  h2::before{content:"// "; color:var(--green);}
-
-  p.summary{font-size:0.95rem; color:var(--text);}
-
-  .tags{display:flex; flex-wrap:wrap; gap:8px;}
-  .tag{
-    background:var(--bg-panel); border:1px solid var(--border);
-    color:var(--text); padding:5px 10px; border-radius:5px; font-size:0.82rem;
-  }
-  .tag b{color:var(--amber); font-weight:600;}
-
-  .cards{display:grid; gap:14px;}
-  .card{
-    background:var(--bg-panel); border:1px solid var(--border); border-radius:8px;
-    padding:16px 18px;
-  }
-  .card h3{margin:0 0 8px; font-size:0.98rem; color:#fff;}
-  .card ul{margin:0; padding-left:18px; color:var(--text); font-size:0.88rem;}
-  .card li{margin-bottom:5px;}
-
-  .timeline .role{margin-bottom:22px;}
-  .role .rh{display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;}
-  .role .company{color:#fff; font-weight:600; font-size:0.95rem;}
-  .role .years{color:var(--text-dim); font-size:0.85rem;}
-  .role ul{margin:8px 0 0; padding-left:18px; font-size:0.88rem; color:var(--text);}
-  .role li{margin-bottom:4px;}
-  .prior{color:var(--text-dim); font-size:0.85rem; margin-top:4px;}
-
-  .edu{font-size:0.9rem; color:var(--text);}
-
-  /* --- Notification demo --- */
-  .demo{
-    background:var(--bg-panel); border:1px solid var(--border); border-radius:10px;
-    padding:24px 20px 30px;
-  }
-  .demo .hint{color:var(--text-dim); font-size:0.82rem; margin-bottom:18px;}
-
-  .flow{
-    display:flex; align-items:center; justify-content:space-between;
-    gap:0; overflow-x:auto; padding:10px 0 20px;
-  }
-  .node{
-    display:flex; flex-direction:column; align-items:center; gap:6px;
-    min-width:78px; flex:0 0 auto;
-  }
-  .node .box{
-    width:52px; height:52px; border-radius:10px;
-    background:#0d1520; border:1.5px solid var(--border);
-    display:flex; align-items:center; justify-content:center; font-size:22px;
-    transition:all .25s ease;
-  }
-  .node .lbl{font-size:0.68rem; color:var(--text-dim); text-align:center; transition:color .25s ease;}
-  .node.active .box{border-color:var(--green); box-shadow:0 0 14px rgba(57,211,83,0.45); background:#0f2015;}
-  .node.active .lbl{color:var(--green);}
-
-  .edge{
-    flex:1 1 auto; height:2px; background:var(--border); position:relative; min-width:20px;
-    margin:0 -2px; align-self:center; margin-top:-24px;
-  }
-  .edge.active{background:var(--green); box-shadow:0 0 8px rgba(57,211,83,0.5);}
-
-  .replay{
-    background:transparent; border:1px solid var(--border); color:var(--text);
-    font-family:var(--mono); font-size:0.82rem; padding:8px 14px; border-radius:6px; cursor:pointer;
-  }
-  .replay:hover{border-color:var(--green); color:var(--green);}
-  .replay:disabled{opacity:0.45; cursor:not-allowed;}
-  .replay:disabled:hover{border-color:var(--border); color:var(--text);}
-  .ratenote{color:var(--text-dim); font-size:0.75rem; margin-top:12px;}
-  .ratenote::before{content:"# "; color:var(--amber);}
-
-  .toast{
-    position:fixed; bottom:24px; right:24px; max-width:340px;
-    background:#0f2015; border:1px solid var(--green); border-radius:8px;
-    padding:14px 16px; font-size:0.85rem; color:var(--text);
-    box-shadow:0 8px 24px rgba(0,0,0,0.4);
-    transform:translateY(20px); opacity:0; transition:all .35s ease; pointer-events:none;
-  }
-  .toast.show{transform:translateY(0); opacity:1;}
-  .toast .h{color:var(--green); font-weight:600; margin-bottom:4px; font-size:0.8rem;}
-
-  footer{color:var(--text-dim); font-size:0.78rem; margin-top:50px; text-align:center;}
-
-  @media (max-width:600px){
-    .flow{padding-bottom:14px;}
-    .node{min-width:58px;}
-    .node .box{width:42px;height:42px;font-size:18px;}
-  }
-</style>
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://zilberman-ping.igorzi84.workers.dev https://cloudflareinsights.com; style-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'self'; form-action 'none'; frame-ancestors 'self'" />
+<link rel="canonical" href="https://zilberman.ca/" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://zilberman.ca/" />
+<meta property="og:title" content="Igor Zilberman — Senior DevOps / Platform Engineer" />
+<meta property="og:description" content="Senior DevOps and Platform Engineer with 15+ years building cloud infrastructure, Kubernetes platforms, CI/CD, GitOps, and observability." />
+<meta property="og:image" content="https://zilberman.ca/og-image-v2.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="zilberman.ca" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Igor Zilberman — Senior DevOps / Platform Engineer" />
+<meta name="twitter:description" content="Senior DevOps and Platform Engineer with 15+ years building cloud infrastructure, Kubernetes platforms, CI/CD, GitOps, and observability." />
+<meta name="twitter:image" content="https://zilberman.ca/og-image-v2.png" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/styles.css" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Igor Zilberman",
+  "url": "https://zilberman.ca/",
+  "jobTitle": "Senior DevOps / Platform Engineer",
+  "email": "igor@zilberman.ca",
+  "description": "Senior DevOps and Platform Engineer with 15+ years building and operating cloud infrastructure, CI/CD systems, Kubernetes platforms, and production automation.",
+  "sameAs": [
+    "https://github.com/igorzi84",
+    "https://linkedin.com/in/igorzi"
+  ]
+}
+</script>
 </head>
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <div class="termbar">
-  <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+  <span class="dot r" aria-hidden="true"></span><span class="dot y" aria-hidden="true"></span><span class="dot g" aria-hidden="true"></span>
   <span class="path">zilberman.ca — zsh</span>
 </div>
 
-<div class="wrap">
+<div class="wrap" id="main">
 
   <header>
     <div class="prompt">igor@zilberman <span class="cmd">~ %</span> whoami</div>
@@ -164,8 +55,8 @@
     <div class="title">Senior DevOps / Platform Engineer</div>
     <div class="tagline">15+ years keeping distributed systems upright so no one else has to think about it.</div>
     <div class="links">
-      <a href="https://github.com/igorzi84" target="_blank" rel="noopener">github.com/igorzi84</a>
-      <a href="https://linkedin.com/in/igorzi" target="_blank" rel="noopener">linkedin.com/in/igorzi</a>
+      <a href="https://github.com/igorzi84" target="_blank" rel="noopener noreferrer">github.com/igorzi84</a>
+      <a href="https://linkedin.com/in/igorzi" target="_blank" rel="noopener noreferrer">linkedin.com/in/igorzi</a>
       <a href="mailto:igor@zilberman.ca">igor@zilberman.ca</a>
     </div>
   </header>
@@ -247,22 +138,22 @@
     <div class="edu">B.Sc., Electrical and Electronics Engineering — SCE College of Engineering, Israel</div>
   </section>
 
-  <section>
-    <h2>visitor ping</h2>
+  <section aria-labelledby="ping-heading">
+    <h2 id="ping-heading">visitor ping</h2>
     <div class="demo">
       <div class="hint">someone loaded this page — routing a real event through the pipeline:</div>
 
-      <div class="flow" id="flow">
-        <div class="node" id="n0"><div class="box">🌐</div><div class="lbl">Visitor</div></div>
-        <div class="edge" id="e0"></div>
-        <div class="node" id="n1"><div class="box">⚡</div><div class="lbl">CF Worker</div></div>
-        <div class="edge" id="e1"></div>
-        <div class="node" id="n2"><div class="box">✈️</div><div class="lbl">Telegram</div></div>
-        <div class="edge" id="e2"></div>
-        <div class="node" id="n3"><div class="box">📱</div><div class="lbl">Igor</div></div>
+      <div class="flow" id="flow" role="img" aria-label="Visitor ping pipeline: browser to Cloudflare Worker to Telegram to Igor">
+        <div class="node" id="n0"><div class="box" aria-hidden="true">🌐</div><div class="lbl">Visitor</div></div>
+        <div class="edge" id="e0" aria-hidden="true"></div>
+        <div class="node" id="n1"><div class="box" aria-hidden="true">⚡</div><div class="lbl">CF Worker</div></div>
+        <div class="edge" id="e1" aria-hidden="true"></div>
+        <div class="node" id="n2"><div class="box" aria-hidden="true">✈️</div><div class="lbl">Telegram</div></div>
+        <div class="edge" id="e2" aria-hidden="true"></div>
+        <div class="node" id="n3"><div class="box" aria-hidden="true">📱</div><div class="lbl">Igor</div></div>
       </div>
 
-      <button class="replay" id="replay">↻ send another ping</button>
+      <button class="replay" id="replay" type="button" aria-label="Replay visitor ping animation">↻ send another ping</button>
       <div class="ratenote">rate-limited, of course: button cooldown client-side, per-IP throttle at the worker — nobody's phone gets DDoS'd today.</div>
     </div>
   </section>
@@ -273,93 +164,12 @@
 
 </div>
 
-<div class="toast" id="toast">
+<div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">
   <div class="h">📬 notification sent</div>
   <div>Thanks for visiting — a notification just went out to Igor. He's going to be stoked someone actually visited his page.</div>
 </div>
 
-<script>
-(function(){
-  // Points at a Cloudflare Worker (igorzi84/zilberman-ping-worker) that holds
-  // the Telegram bot token as a server-side secret, rate-limits by IP, and
-  // enriches the push with rough visitor geo/device info. No secrets here.
-  var PING_ENDPOINT = 'https://zilberman-ping.igorzi84.workers.dev/ping';
-
-  var nodeIds = ['n0','n1','n2','n3'];
-  var edgeIds = ['e0','e1','e2'];
-  var toast = document.getElementById('toast');
-  var running = false;
-
-  function sendRealPing(){
-    // one real push per browser session, so refreshing doesn't spam the phone
-    try{
-      if(sessionStorage.getItem('zc_pinged')) return;
-      sessionStorage.setItem('zc_pinged', '1');
-    }catch(e){ /* storage blocked, still try to send once */ }
-    fetch(PING_ENDPOINT, { method: 'POST' })
-      .catch(function(){ /* offline, blocked, or endpoint not deployed yet — fail silently */ });
-  }
-
-  function resetFlow(){
-    nodeIds.forEach(function(id){ document.getElementById(id).classList.remove('active'); });
-    edgeIds.forEach(function(id){ document.getElementById(id).classList.remove('active'); });
-    toast.classList.remove('show');
-  }
-
-  function runFlow(sendReal){
-    if(running) return;
-    running = true;
-    resetFlow();
-    var step = 0;
-    var sequence = [];
-    nodeIds.forEach(function(nid, i){
-      sequence.push(nid);
-      if(edgeIds[i]) sequence.push(edgeIds[i]);
-    });
-
-    function tick(){
-      if(step >= sequence.length){
-        toast.classList.add('show');
-        if(sendReal) sendRealPing();
-        setTimeout(function(){ toast.classList.remove('show'); }, 10000);
-        running = false;
-        return;
-      }
-      document.getElementById(sequence[step]).classList.add('active');
-      step++;
-      setTimeout(tick, 450);
-    }
-    tick();
-  }
-
-  // real trigger: fires once per page load, sends the actual push
-  window.addEventListener('load', function(){
-    setTimeout(function(){ runFlow(true); }, 900);
-  });
-  // replay button: just re-plays the animation, does not send another real push.
-  // rate-limited to one replay per cooldown window so it can't be spammed.
-  var replayBtn = document.getElementById('replay');
-  var REPLAY_COOLDOWN_S = 10;
-
-  replayBtn.addEventListener('click', function(){
-    if(running || replayBtn.disabled) return;
-    runFlow(false);
-    var remaining = REPLAY_COOLDOWN_S;
-    replayBtn.disabled = true;
-    replayBtn.textContent = '⏳ wait ' + remaining + 's';
-    var timer = setInterval(function(){
-      remaining--;
-      if(remaining <= 0){
-        clearInterval(timer);
-        replayBtn.disabled = false;
-        replayBtn.textContent = '↻ send another ping';
-        return;
-      }
-      replayBtn.textContent = '⏳ wait ' + remaining + 's';
-    }, 1000);
-  });
-})();
-</script>
-
+<script src="/main.js" defer></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "22148cdc835f415d9ca94c6dd6d400e0"}'></script>
 </body>
 </html>

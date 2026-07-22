@@ -1,0 +1,190 @@
+:root{
+  --bg: #0a0e14;
+  --bg-panel: #10161f;
+  --border: #1f2937;
+  --text: #c9d1d9;
+  --text-dim: #6b7583;
+  --green: #39d353;
+  --amber: #f0b429;
+  --blue: #58a6ff;
+  --mono: 'JetBrains Mono', 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--mono);
+  line-height:1.6;
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(57,211,83,0.06), transparent 40%),
+    radial-gradient(circle at 80% 0%, rgba(88,166,255,0.05), transparent 40%);
+}
+a{color:var(--green); text-decoration:none;}
+a:hover{text-decoration:underline;}
+.wrap{max-width:840px; margin:0 auto; padding:0 20px 80px;}
+
+.termbar{
+  display:flex; align-items:center; gap:8px;
+  padding:14px 20px; border-bottom:1px solid var(--border);
+  max-width:840px; margin:0 auto;
+}
+.dot{width:11px;height:11px;border-radius:50%;}
+.dot.r{background:#ff5f56;} .dot.y{background:#ffbd2e;} .dot.g{background:#27c93f;}
+.termbar .path{margin-left:14px; color:var(--text-dim); font-size:13px;}
+
+header{padding:56px 0 28px;}
+.prompt{color:var(--text-dim); font-size:13px; margin-bottom:10px;}
+.prompt .cmd{color:var(--blue);}
+h1{font-size:2.1rem; margin:0 0 4px; color:#fff; letter-spacing:-0.5px;}
+.title{color:var(--green); font-size:1.05rem; margin-bottom:18px;}
+.tagline{color:var(--text-dim); font-size:0.95rem; margin-bottom:22px;}
+.links{display:flex; gap:18px; font-size:0.9rem; flex-wrap:wrap;}
+.links a{color:var(--text); border:1px solid var(--border); padding:6px 12px; border-radius:6px;}
+.links a:hover{border-color:var(--green); color:var(--green); text-decoration:none;}
+
+section{margin-top:44px;}
+h2{
+  font-size:0.85rem; text-transform:uppercase; letter-spacing:1.5px;
+  color:var(--text-dim); margin-bottom:16px;
+}
+h2::before{content:"// "; color:var(--green);}
+
+p.summary{font-size:0.95rem; color:var(--text);}
+
+.tags{display:flex; flex-wrap:wrap; gap:8px;}
+.tag{
+  background:var(--bg-panel); border:1px solid var(--border);
+  color:var(--text); padding:5px 10px; border-radius:5px; font-size:0.82rem;
+}
+.tag b{color:var(--amber); font-weight:600;}
+
+.cards{display:grid; gap:14px;}
+.card{
+  background:var(--bg-panel); border:1px solid var(--border); border-radius:8px;
+  padding:16px 18px;
+}
+.card h3{margin:0 0 8px; font-size:0.98rem; color:#fff;}
+.card ul{margin:0; padding-left:18px; color:var(--text); font-size:0.88rem;}
+.card li{margin-bottom:5px;}
+
+.timeline .role{margin-bottom:22px;}
+.role .rh{display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;}
+.role .company{color:#fff; font-weight:600; font-size:0.95rem;}
+.role .years{color:var(--text-dim); font-size:0.85rem;}
+.role ul{margin:8px 0 0; padding-left:18px; font-size:0.88rem; color:var(--text);}
+.role li{margin-bottom:4px;}
+.prior{color:var(--text-dim); font-size:0.85rem; margin-top:4px;}
+
+.edu{font-size:0.9rem; color:var(--text);}
+
+.demo{
+  background:var(--bg-panel); border:1px solid var(--border); border-radius:10px;
+  padding:24px 20px 30px;
+}
+.demo .hint{color:var(--text-dim); font-size:0.82rem; margin-bottom:18px;}
+
+.flow{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:0; overflow-x:auto; padding:10px 0 20px;
+}
+.node{
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  min-width:78px; flex:0 0 auto;
+}
+.node .box{
+  width:52px; height:52px; border-radius:10px;
+  background:#0d1520; border:1.5px solid var(--border);
+  display:flex; align-items:center; justify-content:center; font-size:22px;
+  transition:all .25s ease;
+}
+.node .lbl{font-size:0.68rem; color:var(--text-dim); text-align:center; transition:color .25s ease;}
+.node.active .box{border-color:var(--green); box-shadow:0 0 14px rgba(57,211,83,0.45); background:#0f2015;}
+.node.active .lbl{color:var(--green);}
+
+.edge{
+  flex:1 1 auto; height:2px; background:var(--border); position:relative; min-width:20px;
+  margin:0 -2px; align-self:center; margin-top:-24px;
+}
+.edge.active{background:var(--green); box-shadow:0 0 8px rgba(57,211,83,0.5);}
+
+.replay{
+  background:transparent; border:1px solid var(--border); color:var(--text);
+  font-family:var(--mono); font-size:0.82rem; padding:8px 14px; border-radius:6px; cursor:pointer;
+}
+.replay:hover{border-color:var(--green); color:var(--green);}
+.replay:disabled{opacity:0.45; cursor:not-allowed;}
+.replay:disabled:hover{border-color:var(--border); color:var(--text);}
+.ratenote{color:var(--text-dim); font-size:0.75rem; margin-top:12px;}
+.ratenote::before{content:"# "; color:var(--amber);}
+
+.toast{
+  position:fixed; bottom:24px; right:24px; max-width:340px;
+  background:#0f2015; border:1px solid var(--green); border-radius:8px;
+  padding:14px 16px; font-size:0.85rem; color:var(--text);
+  box-shadow:0 8px 24px rgba(0,0,0,0.4);
+  transform:translateY(20px); opacity:0; transition:all .35s ease; pointer-events:none;
+}
+.toast.show{transform:translateY(0); opacity:1;}
+.toast .h{color:var(--green); font-weight:600; margin-bottom:4px; font-size:0.8rem;}
+
+.error-page{
+  min-height:60vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:40px 0;
+}
+.error-code{font-size:3rem; color:var(--green); margin:0 0 8px;}
+.error-msg{color:var(--text-dim); margin:0 0 24px; font-size:0.95rem;}
+
+footer{color:var(--text-dim); font-size:0.78rem; margin-top:50px; text-align:center;}
+
+a:focus-visible,
+button:focus-visible{
+  outline:2px solid var(--green);
+  outline-offset:3px;
+}
+
+.skip-link{
+  position:absolute;
+  left:-9999px;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}
+.skip-link:focus{
+  position:fixed;
+  left:16px;
+  top:16px;
+  width:auto;
+  height:auto;
+  overflow:visible;
+  z-index:1000;
+  background:var(--bg-panel);
+  border:1px solid var(--green);
+  color:var(--text);
+  padding:10px 14px;
+  border-radius:6px;
+}
+
+@media (max-width:600px){
+  .flow{padding-bottom:14px;}
+  .node{min-width:58px;}
+  .node .box{width:42px;height:42px;font-size:18px;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,
+  *::before,
+  *::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+    scroll-behavior:auto !important;
+  }
+  .toast{transition:none;}
+  .node .box,
+  .node .lbl{transition:none;}
+}
